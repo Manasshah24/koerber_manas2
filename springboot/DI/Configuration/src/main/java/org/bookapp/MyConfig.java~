@@ -1,0 +1,4 @@
+package org.bookapp;
+
+public class MyConfig {
+}

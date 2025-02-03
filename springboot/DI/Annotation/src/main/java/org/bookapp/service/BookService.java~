@@ -1,0 +1,4 @@
+package org.bookapp.service;
+
+public class BookService {
+}

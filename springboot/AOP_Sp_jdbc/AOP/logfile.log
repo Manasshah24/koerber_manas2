@@ -1,0 +1,1 @@
+INFO  | 2025-01-24 15:39:18 | [main] aspect.LoggerAspect (LoggerAspect.java:22) - Execution time of void org.bookapp.service.BookService.deleteBook(int) is 0 ms

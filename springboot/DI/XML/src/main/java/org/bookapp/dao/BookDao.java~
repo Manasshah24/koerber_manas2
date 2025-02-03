@@ -1,0 +1,4 @@
+package org.bookapp.dao;
+
+public interface BookDao {
+}
