@@ -1,0 +1,19 @@
+package com.example.payment_ms_3.entity;
+
+
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "payments")
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long orderId;
+    private double amount;
+    private String status;
+}

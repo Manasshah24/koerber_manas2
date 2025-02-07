@@ -1,0 +1,3 @@
+module delivery {
+    requires invoice;
+}

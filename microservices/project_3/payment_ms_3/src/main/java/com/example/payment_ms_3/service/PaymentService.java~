@@ -1,0 +1,25 @@
+package com.example.payment_ms_3.service;
+
+
+
+import com.example.payment_ms_3.entity.Payment;
+import com.example.payment_ms_3.repository.PaymentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    public Payment processPayment(Payment payment) {
+        payment.setStatus("SUCCESS"); // Simulating a successful payment
+        return paymentRepository.save(payment);
+    }
+
+    public Payment getPaymentByOrderId(Long orderId) {
+        return paymentRepository.findById(orderId).orElse(null);
+    }
+}
+
