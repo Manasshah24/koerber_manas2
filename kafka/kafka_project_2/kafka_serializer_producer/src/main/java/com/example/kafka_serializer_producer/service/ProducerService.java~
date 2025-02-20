@@ -1,0 +1,17 @@
+package com.example.kafka_serializer_producer.service;
+
+import com.example.kafka_serializer_producer.entity.MyObject;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProducerService {
+    @Autowired
+    private KafkaTemplate<String, MyObject> kafkaTemplate;
+
+    public void sendMessage(String key, MyObject message) {
+        kafkaTemplate.send("my-topic", key, message);  // Sending message with key (routing key)
+    }
+}
+

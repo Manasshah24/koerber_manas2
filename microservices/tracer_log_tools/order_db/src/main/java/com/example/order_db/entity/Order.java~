@@ -1,0 +1,26 @@
+package com.example.order_db.entity;
+
+
+
+import jakarta.persistence.*;
+import lombok.*;
+
+
+@Entity
+@Data
+@Table(name = "orders")  // Rename table to "orders"
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long productId;
+    private Integer quantity;
+    @Column(nullable = false)
+    private Double totalPrice;
+    // Getters and Setters
+}
+
+
+
+

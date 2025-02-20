@@ -1,0 +1,6 @@
+run mvn clean package to build the project (and make jar files),then build command ,
+to make image: docker build -t java:1.0 ., image will automatically go on dockerhub, or use docker
+push commands to put in on dockerhub ,
+then for this process use docker-compose command , so that now M.S commmunicate ,
+and use postman command ,
+watch out for openfeign , and dockercompose

@@ -1,0 +1,2 @@
+learn about ,
+pod , deployment and replicaset

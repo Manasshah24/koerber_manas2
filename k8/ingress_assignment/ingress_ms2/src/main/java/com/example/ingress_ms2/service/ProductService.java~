@@ -1,0 +1,4 @@
+package com.example.ingress_ms2.service;
+
+public class ProductService {
+}

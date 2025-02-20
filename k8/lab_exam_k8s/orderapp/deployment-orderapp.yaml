@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderapp
+  labels:
+    app: orderapp
+  annotations:
+    app.version: "1.1"  # Annotation to track the version
+spec:
+  replicas: 3  # Number of Pods to run
+  strategy:
+    type: Recreate  # Use the Recreate strategy
+  selector:
+    matchLabels:
+      app: orderapp
+  template:
+    metadata:
+      labels:
+        app: orderapp
+    spec:
+      containers:
+        - name: orderapp
+          image: manasshah24/orderapp:1.1  # Replace with your Docker image
+          ports:
+            - containerPort: 8081  # Port the app runs on
+          livenessProbe:
+            httpGet:
+              path: /actuator/health  # Health check endpoint
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health  # Readiness check endpoint
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10

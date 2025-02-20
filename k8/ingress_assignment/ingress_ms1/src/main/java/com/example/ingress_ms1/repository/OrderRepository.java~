@@ -1,0 +1,4 @@
+package com.example.ingress_ms1.repository;
+
+public class OrderRepository {
+}

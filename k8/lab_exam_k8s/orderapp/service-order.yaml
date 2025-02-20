@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderapp-service
+  labels:
+    app: orderapp
+spec:
+  selector:
+    app: orderapp
+  ports:
+    - protocol: TCP
+      port: 80 # pod port
+      targetPort: 8081 #container port
+      nodePort: 30001
+  type: NodePort

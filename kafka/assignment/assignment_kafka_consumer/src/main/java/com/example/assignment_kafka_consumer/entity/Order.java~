@@ -1,0 +1,4 @@
+package com.example.assignment_kafka_consumer.entity;
+
+public class Order {
+}

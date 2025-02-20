@@ -1,0 +1,4 @@
+package com.example.q2_jwt.repository;
+
+public class BookRepository {
+}

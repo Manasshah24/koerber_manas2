@@ -1,0 +1,11 @@
+package com.example.kafka_serializer_producer.entity;
+
+import java.io.Serializable;
+
+public class MyObject implements Serializable {
+    private String name;
+    private String description;
+
+
+}
+
