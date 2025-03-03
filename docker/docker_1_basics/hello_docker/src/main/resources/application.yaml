@@ -1,1 +1,8 @@
+server:
+  port: 8083 # Or 8080, if you prefer
 
+spring:
+  application:
+    name: hello_docker # Optional, but good practice
+
+# Add any other Spring Boot configurations you need here

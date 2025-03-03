@@ -1,0 +1,155 @@
+# Deploying a Spring Boot Application on AWS EC2
+
+## **Step 1: Create a Spring Boot Application**
+1. Generate a Spring Boot project from [Spring Initializr](https://start.spring.io/).
+2. Add required dependencies (Spring Web, Spring Boot DevTools, etc.).
+3. Implement a simple REST endpoint in `HelloController.java`:
+
+```java
+@RestController
+@RequestMapping("/hello")
+public class HelloController {
+    @GetMapping
+    public String sayHello() {
+        return "Hello from AWS EC2!";
+    }
+}
+```
+4. Build the application JAR file using Maven:
+```bash
+mvn clean package
+```
+The JAR file will be located in `target/` directory.
+
+---
+## **Step 2: Launch an AWS EC2 Instance**
+1. Go to the [AWS EC2 Console](https://aws.amazon.com/ec2/).
+2. Click **Launch Instance** and configure:
+   - **Amazon Machine Image (AMI):** Choose Ubuntu 22.04 LTS.
+   - **Instance Type:** Select `t2.micro` (Free Tier eligible).
+   - **Key Pair:** Create or use an existing `.pem` key.
+   - **Security Group:** Configure inbound rules:
+     - `SSH | TCP | 22 | 0.0.0.0/0` (for remote access)
+     - `Custom TCP | TCP | 8080 | 0.0.0.0/0` (to allow app access)
+3. Launch the instance and note its **Public IPv4 address**.
+
+---
+## **Step 3: Connect to EC2 Instance Using MobaXterm**
+1. Open **MobaXterm**.
+2. Click **Session** > **SSH**.
+3. Enter **Remote Host:** `<your-ec2-public-ip>` (e.g., `3.7.46.246`).
+4. In the **Advanced SSH Settings**, set `Use private key` to your `.pem` file.
+5. Click **OK** to connect.
+
+Once connected, verify using:
+```bash
+whoami
+```
+The output should be `ubuntu`.
+
+---
+## **Step 4: Transfer the JAR File to EC2**
+Using **SCP (Secure Copy Protocol)**, upload the JAR file from your local system:
+
+```bash
+scp -i "C:\Users\manas.shah\Desktop\koerber_intern\koerber_intern\koerber_manas2\aws\ec2_key.pem" \
+"C:\Users\manas.shah\Desktop\koerber_intern\koerber_intern\koerber_manas2\aws\aws_2_assignment\target\aws_assignment2.jar" \
+ubuntu@3.7.46.246:/home/ubuntu
+```
+
+Make sure:
+- The `.pem` file path is correct.
+- The JAR file exists in the specified location.
+- You are using the correct EC2 Public IP.
+
+---
+## **Step 5: Install Java on EC2**
+If Java is not installed, run the following commands:
+```bash
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+java -version
+```
+Ensure Java is installed correctly.
+
+---
+## **Step 6: Run the Spring Boot Application on EC2**
+1. Connect to EC2 via SSH:
+```bash
+ssh -i "ec2_key.pem" ubuntu@3.7.46.246
+```
+2. Navigate to the JAR file:
+```bash
+cd /home/ubuntu
+```
+3. Run the application:
+```bash
+java -jar aws_assignment2.jar
+```
+4. Verify logs to ensure the app is running.
+
+---
+## **Step 7: Test the Application**
+Open your browser and access:
+```
+http://3.7.46.246:8080/hello
+```
+If the response is **"Hello from AWS EC2!"**, the deployment is successful.
+
+---
+## **Step 8: Keep the App Running in the Background (Optional)**
+To prevent the app from stopping after logout, run:
+```bash
+nohup java -jar aws_assignment2.jar > output.log 2>&1 &
+```
+To check logs:
+```bash
+cat output.log
+```
+
+---
+## **Step 9: (Optional) Set Up Nginx for Reverse Proxy**
+If you want to access your app without port `8080`, install **Nginx**:
+```bash
+sudo apt install nginx -y
+```
+Edit the Nginx configuration:
+```bash
+sudo nano /etc/nginx/sites-available/default
+```
+Replace contents with:
+```
+server {
+    listen 80;
+    server_name 3.7.46.246;
+
+    location / {
+        proxy_pass http://localhost:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+Save and restart Nginx:
+```bash
+sudo systemctl restart nginx
+```
+Now, access:
+```bash
+http://3.7.46.246/
+```
+Your Spring Boot application should be accessible without specifying port `8080`.
+
+---
+## **Troubleshooting**
+- **Port 8080 is not accessible?**
+  - Check security group rules in AWS EC2.
+  - Use `sudo netstat -tulnp | grep 8080` to verify if the app is running.
+- **Cannot SSH into EC2?**
+  - Verify `.pem` file permissions using `chmod 400 ec2_key.pem`.
+  - Check if the instance is running in AWS Console.
+- **Application stops after logout?**
+  - Use `nohup` or `screen` to keep it running.
+
+🚀 **Your Spring Boot application is now running on AWS EC2!**
+

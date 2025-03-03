@@ -1,0 +1,4 @@
+package com.example.aws_2_assignment.controller;
+
+public class HelloController {
+}
